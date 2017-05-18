@@ -20,7 +20,11 @@ grad = zeros(size(theta));
 J = 1/m*sum(-y'*log(sigmoid(X*theta))-(1-y')*log(1-sigmoid(X*theta)))+...
     lambda/(2*m)*sum(theta(2:end).^2);
 
+% Calculate the full matrix operation needed for the gradient so it may be
+% referenced element by element below
 temp = (X'*(sigmoid(X*theta)-y));
+
+% Calculate the actual gradients using temp
 grad(1) = 1/m*temp(1);
 grad(2:end) = 1/m*temp(2:end)+...
     lambda/m*theta(2:end);
