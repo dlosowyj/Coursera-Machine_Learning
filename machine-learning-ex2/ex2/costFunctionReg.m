@@ -26,8 +26,7 @@ temp = (X'*(sigmoid(X*theta)-y));
 
 % Calculate the actual gradients using temp
 grad(1) = 1/m*temp(1);
-grad(2:end) = 1/m*temp(2:end)+...
-    lambda/m*theta(2:end);
+grad(2:end) = 1/m*temp(2:end)+lambda/m*theta(2:end);
 
 % =============================================================
 
