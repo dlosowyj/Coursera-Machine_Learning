@@ -21,13 +21,25 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% Add a column of 1's to X for the bias
+X = [ones(m,1) X];
 
+% Calculate the first hidden layer
+z_2 = X*Theta1';
+a_2 = sigmoid(z_2);
 
+% Add a column of 1's to a_2 for the bias
+a_2 = [ones(m,1) a_2];
+fprintf('%ix%i\n', size(a_2,1),size(a_2,2));
 
+% Calculate the output
+z_3 = a_2*Theta2';
+a_3 = sigmoid(z_3);
 
+% Get the maximum probability and index at each row
+[max_probs, i] = max(a_3,[],2);
 
-
-
+p = i;
 
 % =========================================================================
 
