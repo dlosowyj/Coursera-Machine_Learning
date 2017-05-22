@@ -30,11 +30,15 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+% Get a matrix containing the probability of each class as rows
+probs = sigmoid(X*all_theta');
 
+fprintf('probs: %ix%i\n', size(probs,1),size(probs,2));
 
+% Get the maximum probability and index at each row
+[max_probs, i] = max(probs,[],2);
 
-
-
+p = i;
 
 % =========================================================================
 
