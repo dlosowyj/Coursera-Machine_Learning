@@ -65,14 +65,16 @@ Theta2_grad = zeros(size(Theta2));
 % Add column of zeros to X for bias
 X = [ones(m,1) X];
 
-% Calculate a_2, which is used in the output layer
-a_2 = sigmoid(X*Theta1');
+% Calculate z_2 and then a_2, which is used in the output layer
+z_2 = X*Theta1';
+a_2 = sigmoid(z_2);
 
 % Add bias layer to a_2
 a_2 = [ones(m,1) a_2];
 
-% Calculate a_3, which is the same as h
-a_3 = sigmoid(a_2*Theta2');
+% Calculate z_3 and then a_3, which is the same as h
+z_3 = a_2*Theta2';
+a_3 = sigmoid(z_3);
 
 % Turn y into a matrix such that there is only a 1 in the position
 % corresponding to the observed number (i.e. there should be a 1 in column
@@ -86,6 +88,21 @@ J = 1/m * sum(sum(-y_matrix.*log(a_3)-(1-y_matrix).*log(1-a_3)));
 % Add regularization
 J = J + lambda/(2*m) * (sum(sum(Theta1(:,2:end).^2)) + ...
     sum(sum(Theta2(:,2:end).^2)));
+
+% Perform backpropagation to get the gradient
+delta_3 = a_3 - y_matrix;
+delta_2 = delta_3*Theta2(:,2:end).*sigmoidGradient(z_2);
+Delta = zeros(size(Theta1_grad));
+Delta = Delta + delta_2'*X;
+Theta1_grad = 1/m * Delta;
+Delta2 = zeros(size(Theta2_grad));
+Delta2 = Delta2 + delta_3'*a_2;
+Theta2_grad = 1/m * Delta2;
+
+% Now regularlize the gradients
+Theta1_grad(:,2:end) = Theta1_grad(:,2:end) + lambda/m * Theta1(:,2:end);
+Theta2_grad(:,2:end) = Theta2_grad(:,2:end) + lambda/m * Theta2(:,2:end);
+
 % -------------------------------------------------------------
 
 % =========================================================================
