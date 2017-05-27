@@ -58,7 +58,6 @@ for i=1:m
     theta = trainLinearReg(X(1:i,:),y(1:i),lambda);
 
     % Get the error for the training set
-%     error_train(i) = 1/(2*m) * sum((X(1:i,:)*theta-y(1:i)).^2);
     error_train(i) = linearRegCostFunction(X(1:i,:),y(1:i),theta,0);
 
     % Get the error for the cross-validation set
