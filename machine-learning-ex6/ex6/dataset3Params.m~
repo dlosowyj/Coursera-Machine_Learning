@@ -27,25 +27,19 @@ sigma = 0.3;
 testC = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
 testSigma = [0.01; 0.03; 0.1; 0.3; 1; 3; 10; 30];
 
-% Create variables to hold the current error and the minimum
-% error
-predErr = 0;
-minErr = inf;
+% Create vector to hold the errors
+predErrs = zeros(10,1);
 
 % Loop through all combinations and see which works best
-for i=1:8
-    for j=1:8
-        model = svmTrain(X, y, testC(i), @(x1, x2) gaussianKernel(x1, x2, testSigma(j)));
+for i=1:10
+    for j=1:10
+        model = svmTrain(X, y, testC[i], @(x1, x2) gaussianKernel(x1, x2, testSigma[j]));
         predictions = svmPredict(model, Xval);
-        predErr = mean(double(predictions ~= yval));
-        
-        if predErr <= minErr
-            C = testC(i);
-            sigma = testSigma(j);
-            minErr = predErr;
-        end
+        predErrs[
     end
 end
+
+return [C, sigma];
 
 % =========================================================================
 
