@@ -26,12 +26,16 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+% counter for number of points associated with a centroid
+centCount = zeros(K, 1);
 
+for i=1:m
+    centroids(idx(i),:) = centroids(idx(i),:) + X(i,:);
+    centCount(idx(i)) = centCount(idx(i)) + 1;
+end
 
-
-
-
-
+% divide by the number of points associated with each centroid to get the average
+centroids = centroids ./ centCount;
 
 % =============================================================
 
